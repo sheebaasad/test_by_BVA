@@ -1,0 +1,185 @@
+{% if section.settings.color %}
+{% assign btn_bg__color = section.settings.btn_bg %}
+{% else %}
+{% assign btn_bg__color = '#fff' %}
+{% endif %}
+{% if section.settings.btn_bg %}
+{% assign text_color = section.settings.color %}
+{% else %}
+{% assign text_color = '#57AD68' %}
+{% endif %}
+{% if section.settings.text_position == 'left' %}
+{% assign text_position = 'text-left' %}
+{% assign main_position = 'flex-start' %}
+{% elsif section.settings.text_position == 'right' %}
+{% assign text_position = 'text-left' %}
+{% assign main_position = 'flex-end' %}
+{% else %}
+{% assign text_position = 'text-center' %}
+{% assign main_position = 'center' %}
+{% endif %}
+
+{% if section.settings.image != blank %}
+    {% assign desktop_image = section.settings.image | img_url: '2000x' %}
+{% endif %}
+{% if section.settings.mobile_image != blank %}
+{% assign  = mobile_image = section.settings.mobile_image | img_url: '767x' %}
+{% else %}
+{% assign  = mobile_image = section.settings.image | img_url: '767x' %}
+{% endif %}
+{% if section.settings.mobile_image != blank or section.settings.image != blank %}
+<style>
+    @media screen and (min-width:768px){
+        .banner-section{
+            background-image: url({{desktop_image}});
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            padding: 10% 0;
+}
+        }
+    @media screen and (max-width:767px){
+        .banner-section{
+            background-image: url({{mobile_image}});
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            padding: 53% 0;
+            }
+            .banner-btn{
+                padding-top: 30px;
+            }
+        }
+    .banner-section h1{
+        font-size: 46px;
+    }
+    .banner-section p{
+        font-size: 24px;
+    }
+    .banner-section h1,p,a{
+        color: {{ text_color }};
+    }
+    .banner-btn .banner-button{
+        background-color: {{ btn_bg__color }};
+        font-size: 20px;
+        border-radius: 25px;
+        padding: 12px 30px;
+    }
+    .banner-btn .banner-button:hover{
+        background-color: {{ text_color }};
+        color:  {{ btn_bg__color }};
+    }
+    @media screen and (max-width:767px){
+        .banner-section h1{
+        font-size: 36px;
+    }
+    .banner-section p{
+        font-size: 18px;
+    }
+    .banner-section .text-content{
+        text-align: center;
+    }
+    .bg-banner{
+        justify-content: center;
+    }
+    .text-content{
+        text-align: center !important;
+    }
+    }
+    .bg-banner{
+        width: 90%;
+        margin: auto;
+        justify-content: {{main_position}};
+    }
+
+</style>
+{% endif %}
+<div class="banner-section">
+    <div class="bg-banner">
+        <div class="text-content {{ text_position }}">
+            {% if section.settings.title != blank %}
+            <h1>{{ section.settings.title }}</h1>
+            {% endif %}
+            {% if section.settings.text != blank %}
+                {{section.settings.text }}
+            {% endif %}
+            <div class="banner-btn">
+                <a class="banner-button" href="{{ section.settings.btn_link }}">{{ section.settings.btn_text }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% schema %}
+    {
+        "name": "Background with Text",
+        "class": "text",
+        "settings": [
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+        },
+        {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text"
+        },
+        {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "mobile_image",
+            "label": "Mobile Image"
+        },
+        {
+            "type": "text",
+            "id": "btn_text",
+            "label": "Button Text"
+        },
+        {
+            "type": "url",
+            "id": "btn_link",
+            "label": "Button Link"
+        },
+        {
+            "type": "color",
+            "id": "color",
+            "label": "Text Color"
+        },
+        {
+            "type": "color",
+            "id": "btn_bg",
+            "label": "Button Background"
+        },
+        {
+            "type": "select",
+            "id": "text_position",
+            "label": "Text alignment",
+            "options": [
+        {
+            "value": "left",
+            "label": "Left"
+        },
+        {
+            "value": "right",
+            "label": "Right"
+        },
+        {
+            "value": "center",
+            "label": "Center"
+        }
+    ],
+        "default":   "right"
+        }
+    ],
+        "presets": [
+        {
+            "name": "Background with Text",
+            "category": "Image"
+        }
+    ] 
+}
+{% endschema %}
